@@ -12,34 +12,35 @@ data ComputerState =
     ComputerState
         { memory :: [Integer]
         , ip     :: Integer
+        , halted :: Bool
         }
     deriving (Show)
 
 parseInput :: String -> ComputerState
-parseInput string = ComputerState (read $ "[" ++ string ++ "]") 0
+parseInput string = ComputerState (read $ "[" ++ string ++ "]") 0 False
 
 readOperands :: ComputerState -> (Integer, Integer, Integer)
-readOperands (ComputerState memory ip) =
+readOperands (ComputerState memory ip _) =
     let first = memory `L.genericIndex` (memory `L.genericIndex` (ip + 1))
         second = memory `L.genericIndex` (memory `L.genericIndex` (ip + 2))
         third = memory `L.genericIndex` (ip + 3)
      in (first, second, third)
 
-execute :: ComputerState -> (ComputerState, Bool)
-execute cs@(ComputerState memory ip) =
+execute :: ComputerState -> ComputerState
+execute cs@(ComputerState memory ip _) =
     let current = memory `L.genericIndex` ip
      in case current of
             1 ->
                 let (first, second, third) = readOperands cs
                     result = first + second
                     newMemory = update memory third result
-                 in (ComputerState newMemory (ip + 4), False)
+                 in ComputerState newMemory (ip + 4) False
             2 ->
                 let (first, second, third) = readOperands cs
                     result = first * second
                     newMemory = update memory third result
-                 in (ComputerState newMemory (ip + 4), False)
-            99 -> (cs, True)
+                 in ComputerState newMemory (ip + 4) False
+            99 -> ComputerState memory ip True
             _ -> undefined
 
 update :: [a] -> Integer -> a -> [a]
@@ -48,17 +49,13 @@ update list position value =
      in prefix ++ [value] ++ drop 1 suffix
 
 initialize :: (Integer, Integer) -> ComputerState -> ComputerState
-initialize (noun, verb) (ComputerState memory ip) =
+initialize (noun, verb) (ComputerState memory ip halted) =
     let firstChange = update memory 1 noun
         secondChange = update firstChange 2 verb
-     in ComputerState secondChange ip
+     in ComputerState secondChange ip halted
 
 executeAll :: ComputerState -> ComputerState
-executeAll cs =
-    let (ncs, complete) = execute cs
-     in if complete
-            then ncs
-            else executeAll ncs
+executeAll = head . dropWhile (not . halted) . iterate execute
 
 readMemory :: Integer -> ComputerState -> Integer
 readMemory position cs = memory cs `L.genericIndex` position
