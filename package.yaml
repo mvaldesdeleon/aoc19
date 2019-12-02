@@ -33,7 +33,7 @@ dependencies:
 - ListZipper
 
 ghc-options:
-- -Wall
+#- -Wall
 - -Wcompat
 - -Wincomplete-record-updates
 - -Wincomplete-uni-patterns
@@ -54,6 +54,21 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     - -main-is Day1Main
+    - -O2
+    dependencies:
+    - aoc19
+    other-modules:
+    - Paths_aoc19
+
+  day2:
+    main:                Day2Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day2Main
+    - -O2
     dependencies:
     - aoc19
     other-modules:
