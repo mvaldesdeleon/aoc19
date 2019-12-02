@@ -1,0 +1,7 @@
+.stack-work/
+aoc19.cabal
+*~
+*.hi
+*.o
+*.dyn*
+.DS_Store

@@ -1,0 +1,88 @@
+cabal-version: 2.0
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 524de380436ec2d785087b58f1467a88935b8594d3630438a54b5c374bd86d11
+
+name:           aoc19
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/mvaldesdeleon/aoc19#readme>
+homepage:       https://github.com/mvaldesdeleon/aoc19#readme
+bug-reports:    https://github.com/mvaldesdeleon/aoc19/issues
+author:         Martin Valdes de Leon
+maintainer:     m.valdesdeleon@gmail.com
+copyright:      Copyright (c) 2019 Martin Valdes de Leon
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+data-files:
+    inputs/day-1.txt
+
+source-repository head
+  type: git
+  location: https://github.com/mvaldesdeleon/aoc19
+
+library
+  exposed-modules:
+      Day1
+  other-modules:
+      Paths_aoc19
+  autogen-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
+  build-depends:
+      ListZipper
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+  default-language: Haskell2010
+
+executable day1
+  main-is: Day1Main.hs
+  other-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day1Main
+  build-depends:
+      ListZipper
+    , aoc19
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+  default-language: Haskell2010
+
+test-suite aoc19-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      ListZipper
+    , aoc19
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+  default-language: Haskell2010
