@@ -7,38 +7,35 @@ import           Paths_aoc19 (getDataFileName)
 loadInput :: IO String
 loadInput = getDataFileName "inputs/day-1.txt" >>= readFile
 
-type Mass = Integer
+data Module =
+    Module
+        { mass :: Integer
+        , fuel :: Integer
+        }
 
-type Fuel = Integer
-
-parseInput :: String -> [Mass]
-parseInput = map read . lines
-
--- Part 1
-fuelRequired :: Mass -> Fuel
+fuelRequired :: Integer -> Integer
 fuelRequired mass = mass `div` 3 - 2
 
-totalFuelRequired :: [Mass] -> Fuel
-totalFuelRequired = foldl step 0
+parseInput :: String -> [Module]
+parseInput = map readModule . lines
   where
-    step fuel mass = fuel + fuelRequired mass
+    readModule str =
+        let mass = read str
+         in Module mass (fuelRequired mass)
+
+-- Part 1
+fuelForModules :: [Module] -> Integer
+fuelForModules = sum . map fuel
 
 -- Part 2
-fuelMass :: Fuel -> Mass
-fuelMass = id
+fuelForFuel :: Integer -> Integer
+fuelForFuel = sum . takeWhile (> 0) . iterate fuelRequired
 
-fuelMassRequired :: Mass -> Mass
-fuelMassRequired = fuelMass . fuelRequired
-
-completeFuelMassRequired :: Mass -> Mass
-completeFuelMassRequired =
-    sum . takeWhile (> 0) . drop 1 . iterate fuelMassRequired
-
-totalFuelMassRequired :: [Mass] -> Mass
-totalFuelMassRequired = sum . map completeFuelMassRequired
+fuelForFueledModules :: [Module] -> Integer
+fuelForFueledModules = sum . map (fuelForFuel . fuel)
 
 day1 :: IO ()
 day1 = do
-    masses <- parseInput <$> loadInput
-    print $ totalFuelRequired masses
-    print $ totalFuelMassRequired masses
+    modules <- parseInput <$> loadInput
+    print $ fuelForModules modules
+    print $ fuelForFueledModules modules
