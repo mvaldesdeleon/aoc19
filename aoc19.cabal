@@ -4,7 +4,7 @@ cabal-version: 2.0
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4bad7493a86e497935dc19f299e14d146c26eca83e6b9e8f8bbc12d1b7c5f94a
+-- hash: 06fd8912563d907651c0f9c9de378d110e6c5c55f72f5c0823a2f492c281ed90
 
 name:           aoc19
 version:        0.1.0.0
@@ -48,6 +48,7 @@ library
     , monad-loops
     , mtl
     , parsec
+    , vector
   default-language: Haskell2010
 
 executable day1
@@ -67,6 +68,7 @@ executable day1
     , monad-loops
     , mtl
     , parsec
+    , vector
   default-language: Haskell2010
 
 executable day2
@@ -86,6 +88,7 @@ executable day2
     , monad-loops
     , mtl
     , parsec
+    , vector
   default-language: Haskell2010
 
 test-suite aoc19-test
@@ -106,4 +109,5 @@ test-suite aoc19-test
     , monad-loops
     , mtl
     , parsec
+    , vector
   default-language: Haskell2010

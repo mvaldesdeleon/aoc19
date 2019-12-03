@@ -2,80 +2,92 @@ module Day2
     ( day2
     ) where
 
-import qualified Data.List   as L
-import           Paths_aoc19 (getDataFileName)
+import           Data.Foldable       (traverse_)
+import qualified Data.List           as L
+import qualified Data.Vector.Mutable as V
+import           Paths_aoc19         (getDataFileName)
 
 loadInput :: IO String
 loadInput = getDataFileName "inputs/day-2.txt" >>= readFile
 
 data ComputerState =
     ComputerState
-        { memory :: [Integer]
+        { memory :: V.IOVector Integer
         , ip     :: Integer
         , halted :: Bool
         }
-    deriving (Show)
 
-parseInput :: String -> ComputerState
-parseInput string = ComputerState (read $ "[" ++ string ++ "]") 0 False
+parseInput :: String -> IO ComputerState
+parseInput string = do
+    memory <- fromList (read $ "[" ++ string ++ "]")
+    return $ ComputerState memory 0 False
+  where
+    fromList xs = do
+        vector <- V.new (length xs)
+        traverse_ (uncurry $ V.write vector) (zip [0 ..] xs)
+        return vector
 
-readOperands :: ComputerState -> (Integer, Integer, Integer)
-readOperands (ComputerState memory ip _) =
-    let first = memory `L.genericIndex` (memory `L.genericIndex` (ip + 1))
-        second = memory `L.genericIndex` (memory `L.genericIndex` (ip + 2))
-        third = memory `L.genericIndex` (ip + 3)
-     in (first, second, third)
+readOperands :: ComputerState -> IO (Integer, Integer, Integer)
+readOperands (ComputerState memory ip _) = do
+    let pointer = fromInteger ip
+    first <- V.read memory (pointer + 1) >>= V.read memory . fromInteger
+    second <- V.read memory (pointer + 2) >>= V.read memory . fromInteger
+    third <- V.read memory (pointer + 3)
+    return (first, second, third)
 
-execute :: ComputerState -> ComputerState
-execute cs@(ComputerState memory ip _) =
-    let current = memory `L.genericIndex` ip
-     in case current of
-            1 ->
-                let (first, second, third) = readOperands cs
-                    result = first + second
-                    newMemory = update memory third result
-                 in ComputerState newMemory (ip + 4) False
-            2 ->
-                let (first, second, third) = readOperands cs
-                    result = first * second
-                    newMemory = update memory third result
-                 in ComputerState newMemory (ip + 4) False
-            99 -> ComputerState memory ip True
-            _ -> undefined
+execute :: ComputerState -> IO ComputerState
+execute cs@(ComputerState memory ip _) = do
+    current <- V.read memory (fromInteger ip)
+    newMemory <- V.clone memory
+    case current of
+        1 -> do
+            (first, second, third) <- readOperands cs
+            V.write newMemory (fromInteger third) (first + second)
+            return $ ComputerState newMemory (ip + 4) False
+        2 -> do
+            (first, second, third) <- readOperands cs
+            V.write newMemory (fromInteger third) (first * second)
+            return $ ComputerState newMemory (ip + 4) False
+        99 -> return $ ComputerState memory ip True
+        _ -> undefined
 
-update :: [a] -> Integer -> a -> [a]
-update list position value =
-    let (prefix, suffix) = L.genericSplitAt position list
-     in prefix ++ [value] ++ drop 1 suffix
+initialize :: (Integer, Integer) -> ComputerState -> IO ComputerState
+initialize (noun, verb) (ComputerState memory ip halted) = do
+    newMemory <- V.clone memory
+    V.write newMemory 1 noun
+    V.write newMemory 2 verb
+    return $ ComputerState newMemory ip halted
 
-initialize :: (Integer, Integer) -> ComputerState -> ComputerState
-initialize (noun, verb) (ComputerState memory ip halted) =
-    let firstChange = update memory 1 noun
-        secondChange = update firstChange 2 verb
-     in ComputerState secondChange ip halted
+executeAll :: ComputerState -> IO ComputerState
+executeAll cs = do
+    ncs <- execute cs
+    if halted ncs
+        then return ncs
+        else executeAll ncs
 
-executeAll :: ComputerState -> ComputerState
-executeAll = head . dropWhile (not . halted) . iterate execute
+readMemory :: Integer -> ComputerState -> IO Integer
+readMemory position cs = V.read (memory cs) (fromInteger position)
 
-readMemory :: Integer -> ComputerState -> Integer
-readMemory position cs = memory cs `L.genericIndex` position
+test :: (Integer, Integer) -> ComputerState -> IO Integer
+test (noun, verb) cs =
+    initialize (noun, verb) cs >>= executeAll >>= readMemory 0
 
-test :: (Integer, Integer) -> ComputerState -> Integer
-test (noun, verb) = readMemory 0 . executeAll . initialize (noun, verb)
+allValues :: ComputerState -> IO [(Integer, Integer, Integer)]
+allValues cs = traverse fn [(noun, verb) | noun <- [0 .. 99], verb <- [0 .. 99]]
+  where
+    fn (noun, verb) = do
+        value <- test (noun, verb) cs
+        return (value, noun, verb)
 
-allValues :: ComputerState -> [(Integer, Integer, Integer)]
-allValues cs =
-    [(test (noun, verb) cs, noun, verb) | noun <- [0 .. 99], verb <- [0 .. 99]]
-
-find :: ComputerState -> Integer
-find cs =
-    let (_, noun, verb) = head $ filter ((==) 19690720 . value) $ allValues cs
-     in noun * 100 + verb
+find :: ComputerState -> IO Integer
+find cs = do
+    (_, noun, verb) <- head . filter ((==) 19690720 . value) <$> allValues cs
+    return $ noun * 100 + verb
   where
     value (val, noun, verb) = val
 
 day2 :: IO ()
 day2 = do
-    cs <- parseInput <$> loadInput
-    print $ test (12, 2) cs
-    print $ find cs
+    cs <- loadInput >>= parseInput
+    print =<< test (12, 2) cs
+    print =<< find cs
