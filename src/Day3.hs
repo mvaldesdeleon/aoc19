@@ -20,7 +20,6 @@ data Point =
         , y :: Integer
         }
     deriving (Show, Eq, Ord)
-    -- BAD Ord INSTANCE
 
 distance :: Point -> Integer
 distance Point {x, y} = abs x + abs y
@@ -51,7 +50,6 @@ intersect segA@SegmentAbs {direction = dirA} segB@SegmentAbs {direction = dirB}
     | dirA == dirB = Nothing
     | dirA == H = intersectHV segA segB
     | dirA == V = intersectHV segB segA
-    -- REBINDING OF segA and segB
   where
     intersectHV SegmentAbs {to = toH, from = fromH} SegmentAbs { to = toV
                                                                , from = fromV
@@ -65,9 +63,7 @@ intersect segA@SegmentAbs {direction = dirA} segB@SegmentAbs {direction = dirB}
                          , segB = segB
                          }
             else Nothing
-    between a b c
-        -- INCLUSIVE
-     =
+    between a b c =
         if a < b
             then (a < c) && (c < b)
             else (a > c) && (c > b)
@@ -113,7 +109,6 @@ intersections (Wire absSegmentsA) (Wire absSegmentsB) =
     [ p
     | segA <- absSegmentsA
     , segB <- absSegmentsB
-    -- pat :: t <- expr :: [t]
     , Just p <- [segA `intersect` segB]
     ]
 
@@ -140,9 +135,7 @@ parseInput input =
 
 intersectionMap ::
        Wire SegmentAbs -> Wire SegmentAbs -> M.Map SegmentAbs [Point]
-intersectionMap wireA wireB
-    -- NO DUPLICATES IF THE LISTS ARE DIFFERENT
- =
+intersectionMap wireA wireB =
     let intAB = intersections wireA wireB
         intBA = intersections wireB wireA
         map = M.empty
@@ -178,7 +171,6 @@ intersectionDistances intMap (Wire segments) = go segments 0 M.empty
                       goInts [] from steps map =
                           go
                               segs
-                              -- LAST PART OF SEGMENT
                               (steps + directedDistance segDir from (to seg))
                               map
                       goInts (int:ints) from steps map =
