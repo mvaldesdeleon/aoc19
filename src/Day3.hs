@@ -7,14 +7,9 @@ module Day3
 
 import           Data.List       (sort, sortOn)
 import qualified Data.Map.Strict as M
-import           Data.Maybe      (catMaybes)
-import           Debug.Trace     (trace)
 import           Paths_aoc19     (getDataFileName)
 import           Text.Parsec     (Parsec, char, digit, many1, newline, parse,
                                   sepBy1, sepEndBy1, try, (<|>))
-
-t :: Show a => a -> a
-t a = trace (show a) a
 
 loadInput :: IO String
 loadInput = getDataFileName "inputs/day-3.txt" >>= readFile
@@ -115,8 +110,12 @@ deltaToAbs start (Wire deltaSegments) = Wire (go start deltaSegments [])
 
 intersections :: Wire SegmentAbs -> Wire SegmentAbs -> [Intersection]
 intersections (Wire absSegmentsA) (Wire absSegmentsB) =
-    catMaybes
-        [segA `intersect` segB | segA <- absSegmentsA, segB <- absSegmentsB]
+    [ p
+    | segA <- absSegmentsA
+    , segB <- absSegmentsB
+    -- pat :: t <- expr :: [t]
+    , Just p <- [segA `intersect` segB]
+    ]
 
 wireLength :: Wire a -> Integer
 wireLength (Wire segments) = toInteger (length segments)
