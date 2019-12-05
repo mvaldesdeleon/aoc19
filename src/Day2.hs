@@ -38,16 +38,15 @@ readOperands (ComputerState memory ip _) = do
 execute :: ComputerState -> IO ComputerState
 execute cs@(ComputerState memory ip _) = do
     current <- V.read memory (fromInteger ip)
-    newMemory <- V.clone memory
     case current of
         1 -> do
             (first, second, third) <- readOperands cs
-            V.write newMemory (fromInteger third) (first + second)
-            return $ ComputerState newMemory (ip + 4) False
+            V.write memory (fromInteger third) (first + second)
+            return $ ComputerState memory (ip + 4) False
         2 -> do
             (first, second, third) <- readOperands cs
-            V.write newMemory (fromInteger third) (first * second)
-            return $ ComputerState newMemory (ip + 4) False
+            V.write memory (fromInteger third) (first * second)
+            return $ ComputerState memory (ip + 4) False
         99 -> return $ ComputerState memory ip True
         _ -> undefined
 
