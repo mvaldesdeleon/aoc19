@@ -145,6 +145,20 @@ executables:
     other-modules:
     - Paths_aoc19
 
+  day8:
+    main:                Day8Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day8Main
+    - -O2
+    dependencies:
+    - aoc19
+    other-modules:
+    - Paths_aoc19
+
 tests:
   aoc19-test:
     main:                Spec.hs
