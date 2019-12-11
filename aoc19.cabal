@@ -4,7 +4,7 @@ cabal-version: 2.0
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2d64920bc8b2e21afd82ecf570bbcef13319cc96032ca6d83c0bfb6d073e228f
+-- hash: c75d7030b5b5ca02928fef9e613eb508292fe569392214e8ff86d93d3f242383
 
 name:           aoc19
 version:        0.1.0.0
@@ -39,6 +39,7 @@ library
   exposed-modules:
       Day1
       Day10
+      Day11
       Day2
       Day3
       Day4
@@ -93,6 +94,26 @@ executable day10
   hs-source-dirs:
       app
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day10Main -O2
+  build-depends:
+      ListZipper
+    , aoc19
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+    , vector
+  default-language: Haskell2010
+
+executable day11
+  main-is: Da11Main.hs
+  other-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      app
+  ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day11Main -O2
   build-depends:
       ListZipper
     , aoc19
