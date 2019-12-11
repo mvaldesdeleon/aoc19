@@ -12,8 +12,8 @@ You should have [stack](https://docs.haskellstack.org/en/stable/README/) install
 git clone git@github.com:mvaldesdeleon/aoc19.git
 cd aoc19
 stack build
-stack exec day[1-9]
-# i.e., stack exec day9
+stack exec day[1-10]
+# i.e., stack exec day10
 ```
 
 # Live Stream
