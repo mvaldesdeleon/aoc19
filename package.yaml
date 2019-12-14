@@ -201,6 +201,62 @@ executables:
     other-modules:
     - Paths_aoc19
 
+  day12:
+    main:                Day12Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day12Main
+    - -O2
+    dependencies:
+    - aoc19
+    other-modules:
+    - Paths_aoc19
+
+  day13:
+    main:                Day13Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day13Main
+    - -O2
+    dependencies:
+    - aoc19
+    other-modules:
+    - Paths_aoc19
+
+  day14:
+    main:                Day14Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day14Main
+    - -O2
+    dependencies:
+    - aoc19
+    other-modules:
+    - Paths_aoc19
+
+  day15:
+    main:                Day15Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day15Main
+    - -O2
+    dependencies:
+    - aoc19
+    other-modules:
+    - Paths_aoc19
+
 tests:
   aoc19-test:
     main:                Spec.hs
