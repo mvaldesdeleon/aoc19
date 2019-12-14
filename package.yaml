@@ -174,7 +174,7 @@ executables:
     - Paths_aoc19
 
   day10:
-    main:                Da10Main.hs
+    main:                Day10Main.hs
     source-dirs:         app
     ghc-options:
     - -threaded
@@ -188,7 +188,7 @@ executables:
     - Paths_aoc19
 
   day11:
-    main:                Da11Main.hs
+    main:                Day11Main.hs
     source-dirs:         app
     ghc-options:
     - -threaded

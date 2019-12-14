@@ -4,7 +4,7 @@ cabal-version: 2.0
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c75d7030b5b5ca02928fef9e613eb508292fe569392214e8ff86d93d3f242383
+-- hash: 1a40d3ca0b93613a8059238b22b4839527d83640be1d729d2767074f99e69682
 
 name:           aoc19
 version:        0.1.0.0
@@ -22,6 +22,7 @@ extra-source-files:
     ChangeLog.md
 data-files:
     inputs/day-1.txt
+    inputs/day-10.txt
     inputs/day-2.txt
     inputs/day-3.txt
     inputs/day-4.txt
@@ -88,7 +89,7 @@ executable day1
   default-language: Haskell2010
 
 executable day10
-  main-is: Da10Main.hs
+  main-is: Day10Main.hs
   other-modules:
       Paths_aoc19
   hs-source-dirs:
@@ -108,7 +109,7 @@ executable day10
   default-language: Haskell2010
 
 executable day11
-  main-is: Da11Main.hs
+  main-is: Day11Main.hs
   other-modules:
       Paths_aoc19
   hs-source-dirs:
