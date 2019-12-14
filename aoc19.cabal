@@ -4,7 +4,7 @@ cabal-version: 2.0
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e0922dd7294d07504382e809513421cbcf6b4d492e6413cda3b3632b5dce2e2b
+-- hash: 3a93a5756a6db024a7981a221b823a2406eaefefcba15d09d105563463d8217f
 
 name:           aoc19
 version:        0.1.0.0
@@ -24,6 +24,7 @@ data-files:
     inputs/day-1.txt
     inputs/day-10.txt
     inputs/day-11.txt
+    inputs/day-12.txt
     inputs/day-2.txt
     inputs/day-3.txt
     inputs/day-4.txt
@@ -120,6 +121,86 @@ executable day11
   hs-source-dirs:
       app
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day11Main -O2
+  build-depends:
+      ListZipper
+    , aoc19
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+    , vector
+  default-language: Haskell2010
+
+executable day12
+  main-is: Day12Main.hs
+  other-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      app
+  ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day12Main -O2
+  build-depends:
+      ListZipper
+    , aoc19
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+    , vector
+  default-language: Haskell2010
+
+executable day13
+  main-is: Day13Main.hs
+  other-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      app
+  ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day13Main -O2
+  build-depends:
+      ListZipper
+    , aoc19
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+    , vector
+  default-language: Haskell2010
+
+executable day14
+  main-is: Day14Main.hs
+  other-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      app
+  ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day14Main -O2
+  build-depends:
+      ListZipper
+    , aoc19
+    , base >=4.7 && <5
+    , containers
+    , lens
+    , listsafe
+    , monad-loops
+    , mtl
+    , parsec
+    , vector
+  default-language: Haskell2010
+
+executable day15
+  main-is: Day15Main.hs
+  other-modules:
+      Paths_aoc19
+  hs-source-dirs:
+      app
+  ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day15Main -O2
   build-depends:
       ListZipper
     , aoc19
