@@ -4,7 +4,7 @@ cabal-version: 2.0
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3a93a5756a6db024a7981a221b823a2406eaefefcba15d09d105563463d8217f
+-- hash: b995c8c368ffde969924b106eb328510abfa67b45c4f6c6bf586d26e7f31d97d
 
 name:           aoc19
 version:        0.1.0.0
@@ -25,6 +25,7 @@ data-files:
     inputs/day-10.txt
     inputs/day-11.txt
     inputs/day-12.txt
+    inputs/day-13.txt
     inputs/day-2.txt
     inputs/day-3.txt
     inputs/day-4.txt
@@ -64,6 +65,7 @@ library
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
   build-depends:
       ListZipper
+    , ansi-terminal
     , base >=4.7 && <5
     , containers
     , lens
@@ -83,6 +85,7 @@ executable day1
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day1Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -103,6 +106,7 @@ executable day10
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day10Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -123,6 +127,7 @@ executable day11
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day11Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -143,6 +148,7 @@ executable day12
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day12Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -163,6 +169,7 @@ executable day13
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day13Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -183,6 +190,7 @@ executable day14
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day14Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -203,6 +211,7 @@ executable day15
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day15Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -223,6 +232,7 @@ executable day2
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day2Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -243,6 +253,7 @@ executable day3
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day3Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -263,6 +274,7 @@ executable day4
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day4Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -283,6 +295,7 @@ executable day5
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day5Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -303,6 +316,7 @@ executable day6
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day6Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -323,6 +337,7 @@ executable day7
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day7Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -343,6 +358,7 @@ executable day8
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day8Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -363,6 +379,7 @@ executable day9
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is Day9Main -O2
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers
@@ -384,6 +401,7 @@ test-suite aoc19-test
   ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       ListZipper
+    , ansi-terminal
     , aoc19
     , base >=4.7 && <5
     , containers

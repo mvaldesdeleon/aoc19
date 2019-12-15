@@ -32,6 +32,7 @@ dependencies:
 - monad-loops
 - parsec
 - ListZipper
+- ansi-terminal
 
 ghc-options:
 #- -Wall
