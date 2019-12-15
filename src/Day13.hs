@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase      #-}
 {-# LANGUAGE NamedFieldPuns  #-}
 {-# LANGUAGE RecordWildCards #-}
 
@@ -9,13 +10,12 @@ import           Control.Concurrent  (threadDelay)
 import           Control.Monad
 import           Data.Foldable       (traverse_)
 import           Data.List           (permutations, reverse)
-import qualified Data.Map.Strict     as M
 import           Data.Maybe          (catMaybes, fromJust, isJust, isNothing)
 import qualified Data.Vector.Mutable as V
 import           Paths_aoc19         (getDataFileName)
 import           Prelude             hiding (Left, Right)
-import           System.Console.ANSI (clearScreen, cursorUpLine, hideCursor,
-                                      setCursorColumn)
+import           System.Console.ANSI (clearScreen, hideCursor,
+                                      setCursorPosition)
 import           System.IO           (getChar, hReady, hSetEcho, stdin)
 
 loadInput :: IO String
@@ -225,51 +225,88 @@ parseTile 2 = Block
 parseTile 3 = Paddle
 parseTile 4 = Ball
 
-data Sprite =
-    Sprite
-        { position :: (Integer, Integer)
-        , tile     :: Tile
-        }
+data Primitive
+    = Sprite
+          { position :: (Integer, Integer)
+          , tile     :: Tile
+          }
+    | Score Integer
     deriving (Show, Eq)
 
-parseSprites :: [Integer] -> [Sprite]
-parseSprites [] = []
-parseSprites (-1:0:_:rest) = parseSprites rest
-parseSprites (x:y:t:rest) =
-    Sprite {position = (x, y), tile = parseTile t} : parseSprites rest
+parsePrimitives :: [Integer] -> [Primitive]
+parsePrimitives [] = []
+parsePrimitives (-1:0:score:rest) = Score score : parsePrimitives rest
+parsePrimitives (x:y:t:rest) =
+    Sprite {position = (x, y), tile = parseTile t} : parsePrimitives rest
 
-printSprites :: [Sprite] -> String
-printSprites sprites =
-    let height = maximum . map (snd . position) $ sprites
-        width = maximum . map (fst . position) $ sprites
-        canvas = M.fromList . map ((,) <$> position <*> tile) $ sprites
-     in unlines [printRow width canvas y | y <- [0 .. height]]
+printOutput :: ComputerState -> IO ()
+printOutput ComputerState {output} = do
+    let prims = parsePrimitives . reverse $ output
+    forM_ prims $ \case
+        Score score -> do
+            setCursorPosition 0 0
+            putStr . show $ score
+        Sprite {..} -> do
+            setCursorPosition
+                ((+ 1) . fromInteger . snd $ position)
+                (fromInteger . fst $ position)
+            putChar . printTile $ tile
   where
-    printRow width canvas y =
-        [printTile $ M.findWithDefault Empty (x, y) canvas | x <- [0 .. width]]
     printTile Empty  = ' '
-    printTile Wall   = '#'
-    printTile Block  = 'O'
-    printTile Paddle = '='
-    printTile Ball   = 'o'
+    printTile Wall   = '█'
+    printTile Block  = '░'
+    printTile Paddle = '═'
+    printTile Ball   = '°'
 
-mainLoop :: ComputerState -> IO ()
-mainLoop cs = do
+data AIState =
+    AIState
+        { ball   :: (Integer, Integer)
+        , paddle :: Integer
+        }
+    deriving (Show)
+
+updateAIState :: ComputerState -> AIState -> AIState
+updateAIState ComputerState {output} AIState {..} =
+    let prims = parsePrimitives . reverse $ output
+        balls = [p | Sprite p Ball <- prims]
+        paddles = [fst p | Sprite p Paddle <- prims]
+     in AIState
+            { ball = headWithDefault ball balls
+            , paddle = headWithDefault paddle paddles
+            }
+  where
+    headWithDefault d []    = d
+    headWithDefault d (a:_) = a
+
+mainLoop :: ComputerState -> AIState -> IO ()
+mainLoop cs ais = do
     ns <- executeAll cs
-    cursorUpLine 24
-    setCursorColumn 0
-    putStrLn $ printSprites . parseSprites . reverse . output $ ns
-    rdy <- hReady stdin
-    input <-
-        if rdy
-            then parseInput <$> getChar
-            else return 0
-    threadDelay 250000
-    mainLoop . setInput [input] $ ns
+    let nais = updateAIState ns ais
+    printOutput ns
+    if executionState ns == Halted
+        then do
+            setCursorPosition 8 14
+            putStr "GAME OVER"
+            setCursorPosition 25 0
+        else do
+            rdy <- hReady stdin
+            input <-
+                if rdy
+                    then parseInput <$> getChar
+                    else return $ assist nais
+            threadDelay 20000
+            mainLoop (setInput [input] . clearOutput $ ns) nais
   where
     parseInput 'a' = -1
     parseInput 'd' = 1
     parseInput _   = 0
+
+assist :: AIState -> Integer
+assist (AIState (ball, _) paddle) =
+    let delta = ball - paddle
+     in if abs delta >= 1
+            then signum delta
+            else 0
 
 day13 :: IO ()
 day13 = do
@@ -280,4 +317,4 @@ day13 = do
     clearScreen
     hideCursor
     hSetEcho stdin False
-    mainLoop (setInput [0] cs)
+    mainLoop (setInput [0] cs) (AIState (0, 0) 0)
