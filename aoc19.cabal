@@ -1,10 +1,10 @@
 cabal-version: 2.0
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b995c8c368ffde969924b106eb328510abfa67b45c4f6c6bf586d26e7f31d97d
+-- hash: 953b7f56e918fdbeb097c246ffaed947ff2110a831596138871cab40b7a41e27
 
 name:           aoc19
 version:        0.1.0.0
@@ -26,6 +26,11 @@ data-files:
     inputs/day-11.txt
     inputs/day-12.txt
     inputs/day-13.txt
+    inputs/day-14.txt
+    inputs/day-15.txt
+    inputs/day-16.txt
+    inputs/day-17.txt
+    inputs/day-18.txt
     inputs/day-2.txt
     inputs/day-3.txt
     inputs/day-4.txt
